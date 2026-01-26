@@ -1,0 +1,9 @@
+# Git Ignore
+__pycache__/
+*.pyc
+venv/
+.env
+models/*.pkl
+data/*.csv
+.vscode/
+.idea/
