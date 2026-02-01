@@ -70,5 +70,15 @@ customer-churn-predictor/
    python src/predict.py
    ```
 
+## Deployment
+### Deploying to Render.com (Free)
+1. Sign up on [Render.com](https://render.com).
+2. Create a **New Web Service** and connect your GitHub repository.
+3. Use the following settings:
+   - **Runtime**: `Python`
+   - **Build Command**: `pip install -r requirements.txt && python src/generate_data.py && python src/train.py`
+   - **Start Command**: `gunicorn app:app`
+4. Click **Deploy Web Service**.
+
 ## Conclusion
 This project demonstrates a complete end-to-end machine learning pipeline, from data generation to a working web application. It highlights the practical application of Logistic Regression in a business context.
