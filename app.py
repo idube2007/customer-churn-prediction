@@ -2,16 +2,31 @@ from flask import Flask, render_template, request
 import pandas as pd
 import joblib
 import os
+from src.generate_data import generate_sample_data
+from src.train import train_model
 
 app = Flask(__name__)
 
+# Emergency Fix: Check if model exists, if not, train it!
+# This allows the app to fix itself on Render without changing the Build Command.
+if not os.path.exists('models/churn_model.pkl'):
+    print("Model not found. Starting emergency training...")
+    # 1. Generate Data
+    if not os.path.exists('data/customer_churn.csv'):
+        print("Data not found. Generating data...")
+        generate_sample_data()
+    
+    # 2. Train Model
+    print("Training model...")
+    train_model()
+    print("Training complete!")
+
 # Load the trained model and scaler
-# We load them once when the app starts for better performance
 try:
     model = joblib.load('models/churn_model.pkl')
     scaler = joblib.load('models/scaler.pkl')
 except FileNotFoundError:
-    print("Error: Model or Scaler not found! Run train.py first.")
+    print("Error: Model or Scaler not found even after training attempt.")
     model = None
     scaler = None
 
